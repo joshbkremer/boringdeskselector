@@ -15,7 +15,7 @@ interface ModalState {
 }
 
 export default function App() {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date())
   const [modal, setModal] = useState<ModalState | null>(null)
   const { toasts, addToast, dismiss } = useToast()
 

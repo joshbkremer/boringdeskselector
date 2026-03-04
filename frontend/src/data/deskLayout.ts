@@ -11,9 +11,9 @@ export const DESK_LAYOUT: AreaConfig[] = [
         cols: 2,
         desks: [
           { id: 'HS-L-00', label: 'X',   reservable: false, row: 0, col: 0 },
-          { id: 'HS1',     label: 'HS1', reservable: true,  row: 0, col: 1 },
-          { id: 'HS2',     label: 'HS2', reservable: true,  row: 1, col: 0 },
-          { id: 'HS3',     label: 'HS3', reservable: true,  row: 1, col: 1 },
+          { id: 'HS1',     label: 'AA-HS1', reservable: true,  row: 0, col: 1 },
+          { id: 'HS2',     label: 'BS-HS2', reservable: true,  row: 1, col: 0 },
+          { id: 'HS3',     label: 'BBB-HS3', reservable: true,  row: 1, col: 1 },
           { id: 'HS-L-20', label: 'X',   reservable: false, row: 2, col: 0 },
           { id: 'HS-L-21', label: 'X',   reservable: false, row: 2, col: 1 },
         ],
@@ -25,8 +25,8 @@ export const DESK_LAYOUT: AreaConfig[] = [
         desks: [
           { id: 'HS-R-00', label: 'X',   reservable: false, row: 0, col: 0 },
           { id: 'HS-R-01', label: 'X',   reservable: false, row: 0, col: 1 },
-          { id: 'HS4',     label: 'HS4', reservable: true,  row: 1, col: 0 },
-          { id: 'HS5',     label: 'HS5', reservable: true,  row: 1, col: 1 },
+          { id: 'HS4',     label: 'JT-HS4', reservable: true,  row: 1, col: 0 },
+          { id: 'HS5',     label: 'JK-HS5', reservable: true,  row: 1, col: 1 },
           { id: 'HS-R-20', label: 'X',   reservable: false, row: 2, col: 0 },
           { id: 'HS-R-21', label: 'X',   reservable: false, row: 2, col: 1 },
         ],
