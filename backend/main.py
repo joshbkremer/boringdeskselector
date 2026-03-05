@@ -37,6 +37,11 @@ class ReservationUpdate(BaseModel):
     name: str
 
 
+class WfhCreate(BaseModel):
+    date: date
+    name: str
+
+
 @app.get("/")
 def root():
     return {
@@ -128,3 +133,43 @@ def update_reservation(reservation_id: str, update: ReservationUpdate):
 def delete_reservation(reservation_id: str):
     supabase.table("reservations").delete().eq("id", reservation_id).execute()
     return {"status": "OK", "message": "Reservation cleared"}
+
+
+# --- WFH endpoints ---
+
+@app.get("/wfh")
+def get_wfh(date: Optional[str] = None):
+    query = supabase.table("wfh_entries").select("*").order("created_at")
+    if date:
+        query = query.eq("date", date)
+    result = query.execute()
+    return result.data
+
+
+@app.post("/wfh", status_code=201)
+def create_wfh(entry: WfhCreate):
+    if not entry.name.strip():
+        raise HTTPException(status_code=400, detail="ERR: Name cannot be empty")
+
+    existing = (
+        supabase.table("wfh_entries")
+        .select("*")
+        .eq("date", str(entry.date))
+        .eq("name", entry.name.strip())
+        .execute()
+    )
+    if existing.data:
+        raise HTTPException(status_code=409, detail="ERR: Already marked as WFH for this date")
+
+    result = supabase.table("wfh_entries").insert({
+        "date": str(entry.date),
+        "name": entry.name.strip(),
+    }).execute()
+
+    return result.data[0]
+
+
+@app.delete("/wfh/{entry_id}")
+def delete_wfh(entry_id: str):
+    supabase.table("wfh_entries").delete().eq("id", entry_id).execute()
+    return {"status": "OK", "message": "WFH entry removed"}

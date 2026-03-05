@@ -3,9 +3,11 @@ import { format } from 'date-fns'
 import { Header } from './components/Header'
 import { Calendar } from './components/Calendar'
 import { DeskArea } from './components/DeskArea'
+import { WfhSection } from './components/WfhSection'
 import { ReservationModal } from './components/ReservationModal'
 import { Toast, useToast } from './components/Toast'
 import { useReservations } from './hooks/useReservations'
+import { useWfh } from './hooks/useWfh'
 import { DESK_LAYOUT } from './data/deskLayout'
 import { DeskConfig, Reservation } from './types'
 
@@ -30,6 +32,14 @@ export default function App() {
     updateReservation,
     deleteReservation,
   } = useReservations(dateStr)
+
+  const {
+    entries: wfhEntries,
+    loading: wfhLoading,
+    addEntry: addWfh,
+    removeEntry: removeWfh,
+    refresh: refreshWfh,
+  } = useWfh(dateStr)
 
   const handleSelectDate = useCallback((date: Date) => {
     setSelectedDate(date)
@@ -62,7 +72,19 @@ export default function App() {
 
   const handleRefresh = useCallback(() => {
     refresh()
-  }, [refresh])
+    refreshWfh()
+  }, [refresh, refreshWfh])
+
+  const handleWfhAdd = useCallback(async (name: string) => {
+    if (!dateStr) return
+    await addWfh(dateStr, name)
+    addToast(`${name} → WFH`, 'success')
+  }, [dateStr, addWfh, addToast])
+
+  const handleWfhRemove = useCallback(async (id: string) => {
+    await removeWfh(id)
+    addToast('WFH entry removed', 'info')
+  }, [removeWfh, addToast])
 
   return (
     <div className="min-h-screen bg-matrix-dark scanlines crt-noise flex flex-col">
@@ -73,6 +95,18 @@ export default function App() {
         <section>
           <Calendar selectedDate={selectedDate} onSelectDate={handleSelectDate} />
         </section>
+
+        {/* WFH section */}
+        {selectedDate && (
+          <section>
+            <WfhSection
+              entries={wfhEntries}
+              loading={wfhLoading}
+              onAdd={handleWfhAdd}
+              onRemove={handleWfhRemove}
+            />
+          </section>
+        )}
 
         {/* Error display */}
         {error && (

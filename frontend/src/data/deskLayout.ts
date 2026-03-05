@@ -59,8 +59,8 @@ export const DESK_LAYOUT: AreaConfig[] = [
         rows: 4,
         cols: 2,
         desks: [
-          { id: 'S1', label: 'S1', reservable: true, row: 0, col: 0 },
-          { id: 'S2', label: 'S2', reservable: true, row: 0, col: 1 },
+          { id: 'S1', label: 'Dock-S1', reservable: true, row: 0, col: 0 },
+          { id: 'S2', label: 'Dock-S2', reservable: true, row: 0, col: 1 },
           { id: 'S3', label: 'S3', reservable: true, row: 1, col: 0 },
           { id: 'S4', label: 'S4', reservable: true, row: 1, col: 1 },
           { id: 'S5', label: 'S5', reservable: true, row: 2, col: 0 },

@@ -68,3 +68,18 @@ INSERT INTO desks (id, area, label, is_reservable, pod, position_row, position_c
   ('S7', 'Synergist', 'S7', true, 'syn-main', 3, 0),
   ('S8', 'Synergist', 'S8', true, 'syn-main', 3, 1)
 ON CONFLICT (id) DO NOTHING;
+
+-- WFH entries table
+CREATE TABLE IF NOT EXISTS wfh_entries (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  date DATE NOT NULL,
+  name TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(date, name)
+);
+
+ALTER TABLE wfh_entries ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Public read wfh_entries" ON wfh_entries FOR SELECT USING (true);
+CREATE POLICY "Public insert wfh_entries" ON wfh_entries FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public delete wfh_entries" ON wfh_entries FOR DELETE USING (true);
