@@ -55,7 +55,7 @@ export function WfhSection({ entries, loading, onAdd, onRemove }: WfhSectionProp
               WORK_FROM_HOME
             </h2>
             <p className="text-[10px] text-matrix-mid tracking-wider mt-0.5">
-              {entries.length} REMOTE TODAY
+              {entries.length} REMOTE
             </p>
           </div>
         </div>
