@@ -24,7 +24,7 @@ export const DESK_LAYOUT: AreaConfig[] = [
         cols: 2,
         desks: [
           { id: 'HS-R-00', label: 'X',   reservable: false, row: 0, col: 0 },
-          { id: 'HS-R-01', label: 'X',   reservable: false, row: 0, col: 1 },
+          { id: 'HS6',     label: 'HS6', reservable: true,  row: 0, col: 1 },
           { id: 'HS4',     label: 'JT-HS4', reservable: true,  row: 1, col: 0 },
           { id: 'HS5',     label: 'JK-HS5', reservable: true,  row: 1, col: 1 },
           { id: 'HS-R-20', label: 'X',   reservable: false, row: 2, col: 0 },
@@ -39,13 +39,17 @@ export const DESK_LAYOUT: AreaConfig[] = [
     pods: [
       {
         id: 'ls-main',
-        rows: 2,
+        rows: 4,
         cols: 2,
         desks: [
           { id: 'LS1', label: 'LS1', reservable: true, row: 0, col: 0 },
           { id: 'LS2', label: 'LS2', reservable: true, row: 0, col: 1 },
           { id: 'LS3', label: 'LS3', reservable: true, row: 1, col: 0 },
           { id: 'LS4', label: 'LS4', reservable: true, row: 1, col: 1 },
+          { id: 'LS5', label: 'LS5', reservable: true, row: 2, col: 0 },
+          { id: 'LS6', label: 'LS6', reservable: true, row: 2, col: 1 },
+          { id: 'LS7', label: 'LS7', reservable: true, row: 3, col: 0 },
+          { id: 'LS8', label: 'LS8', reservable: true, row: 3, col: 1 },
         ],
       },
     ],

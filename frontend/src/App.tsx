@@ -3,11 +3,11 @@ import { format } from 'date-fns'
 import { Header } from './components/Header'
 import { Calendar } from './components/Calendar'
 import { DeskArea } from './components/DeskArea'
-import { WfhSection } from './components/WfhSection'
+import { PresenceSection } from './components/PresenceSection'
 import { ReservationModal } from './components/ReservationModal'
 import { Toast, useToast } from './components/Toast'
 import { useReservations } from './hooks/useReservations'
-import { useWfh } from './hooks/useWfh'
+import { usePresenceList } from './hooks/usePresenceList'
 import { DESK_LAYOUT } from './data/deskLayout'
 import { DeskConfig, Reservation } from './types'
 
@@ -39,7 +39,15 @@ export default function App() {
     addEntry: addWfh,
     removeEntry: removeWfh,
     refresh: refreshWfh,
-  } = useWfh(dateStr)
+  } = usePresenceList('wfh', dateStr)
+
+  const {
+    entries: oooEntries,
+    loading: oooLoading,
+    addEntry: addOoo,
+    removeEntry: removeOoo,
+    refresh: refreshOoo,
+  } = usePresenceList('ooo', dateStr)
 
   const handleSelectDate = useCallback((date: Date) => {
     setSelectedDate(date)
@@ -73,7 +81,8 @@ export default function App() {
   const handleRefresh = useCallback(() => {
     refresh()
     refreshWfh()
-  }, [refresh, refreshWfh])
+    refreshOoo()
+  }, [refresh, refreshWfh, refreshOoo])
 
   const handleWfhAdd = useCallback(async (name: string) => {
     if (!dateStr) return
@@ -86,6 +95,17 @@ export default function App() {
     addToast('WFH entry removed', 'info')
   }, [removeWfh, addToast])
 
+  const handleOooAdd = useCallback(async (name: string) => {
+    if (!dateStr) return
+    await addOoo(dateStr, name)
+    addToast(`${name} → OOO`, 'success')
+  }, [dateStr, addOoo, addToast])
+
+  const handleOooRemove = useCallback(async (id: string) => {
+    await removeOoo(id)
+    addToast('OOO entry removed', 'info')
+  }, [removeOoo, addToast])
+
   return (
     <div className="min-h-screen bg-matrix-dark scanlines crt-noise flex flex-col">
       <Header onRefresh={handleRefresh} loading={loading} />
@@ -96,14 +116,28 @@ export default function App() {
           <Calendar selectedDate={selectedDate} onSelectDate={handleSelectDate} />
         </section>
 
-        {/* WFH section */}
+        {/* WFH + OOO sections */}
         {selectedDate && (
-          <section>
-            <WfhSection
+          <section className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <PresenceSection
+              title="WORK_FROM_HOME"
+              icon="⌂"
+              badge="WFH"
+              emptyText="No one is working from home"
               entries={wfhEntries}
               loading={wfhLoading}
               onAdd={handleWfhAdd}
               onRemove={handleWfhRemove}
+            />
+            <PresenceSection
+              title="OUT_OF_OFFICE"
+              icon="✈"
+              badge="OOO"
+              emptyText="No one is out of office"
+              entries={oooEntries}
+              loading={oooLoading}
+              onAdd={handleOooAdd}
+              onRemove={handleOooRemove}
             />
           </section>
         )}

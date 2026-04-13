@@ -46,7 +46,7 @@ INSERT INTO desks (id, area, label, is_reservable, pod, position_row, position_c
 
   -- Onsite HS - Right Pod
   ('HS-R-00', 'Onsite HS', 'X', false, 'hs-right', 0, 0),
-  ('HS-R-01', 'Onsite HS', 'X', false, 'hs-right', 0, 1),
+  ('HS6',     'Onsite HS', 'HS6', true, 'hs-right', 0, 1),
   ('HS4',     'Onsite HS', 'HS4', true, 'hs-right', 1, 0),
   ('HS5',     'Onsite HS', 'HS5', true, 'hs-right', 1, 1),
   ('HS-R-20', 'Onsite HS', 'X', false, 'hs-right', 2, 0),
@@ -57,6 +57,10 @@ INSERT INTO desks (id, area, label, is_reservable, pod, position_row, position_c
   ('LS2', 'Onsite LS', 'LS2', true, 'ls-main', 0, 1),
   ('LS3', 'Onsite LS', 'LS3', true, 'ls-main', 1, 0),
   ('LS4', 'Onsite LS', 'LS4', true, 'ls-main', 1, 1),
+  ('LS5', 'Onsite LS', 'LS5', true, 'ls-main', 2, 0),
+  ('LS6', 'Onsite LS', 'LS6', true, 'ls-main', 2, 1),
+  ('LS7', 'Onsite LS', 'LS7', true, 'ls-main', 3, 0),
+  ('LS8', 'Onsite LS', 'LS8', true, 'ls-main', 3, 1),
 
   -- Synergist
   ('S1', 'Synergist', 'S1', true, 'syn-main', 0, 0),
@@ -83,3 +87,18 @@ ALTER TABLE wfh_entries ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public read wfh_entries" ON wfh_entries FOR SELECT USING (true);
 CREATE POLICY "Public insert wfh_entries" ON wfh_entries FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public delete wfh_entries" ON wfh_entries FOR DELETE USING (true);
+
+-- OOO entries table
+CREATE TABLE IF NOT EXISTS ooo_entries (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  date DATE NOT NULL,
+  name TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(date, name)
+);
+
+ALTER TABLE ooo_entries ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Public read ooo_entries" ON ooo_entries FOR SELECT USING (true);
+CREATE POLICY "Public insert ooo_entries" ON ooo_entries FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public delete ooo_entries" ON ooo_entries FOR DELETE USING (true);
