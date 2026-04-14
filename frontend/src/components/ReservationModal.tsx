@@ -6,6 +6,7 @@ interface ReservationModalProps {
   desk: DeskConfig
   date: Date
   existingReservation?: Reservation
+  defaultName?: string
   onConfirm: (name: string) => Promise<void>
   onDelete?: () => Promise<void>
   onClose: () => void
@@ -15,11 +16,12 @@ export function ReservationModal({
   desk,
   date,
   existingReservation,
+  defaultName,
   onConfirm,
   onDelete,
   onClose,
 }: ReservationModalProps) {
-  const [name, setName] = useState(existingReservation?.name ?? '')
+  const [name, setName] = useState(existingReservation?.name ?? defaultName ?? '')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [confirmDelete, setConfirmDelete] = useState(false)
